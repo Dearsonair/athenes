@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Révisions : Athènes & L'Antiquité</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gold: #c5a059;
+            --deep-blue: #1c3d5a;
+            --marble-bg: #f9f7f2;
+            --text-dark: #2d2d2d;
+            --shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--marble-bg);
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            font-family: 'Lato', sans-serif;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* --- HEADER & TITRES --- */
+        header {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(to bottom, var(--deep-blue), #2c5270);
+            color: white;
+            border-bottom: 6px solid var(--primary-gold);
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 3.5rem;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 2px 2px 0px var(--primary-gold);
+        }
+
+        h2 {
+            font-family: 'Cinzel', serif;
+            color: var(--deep-blue);
+            text-align: center;
+            font-size: 2rem;
+            margin-top: 60px;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--primary-gold);
+            margin: 10px auto 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- FRISE CHRONOLOGIQUE --- */
+        .timeline {
+            position: relative;
+            margin: 50px auto;
+            max-width: 800px;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--primary-gold);
+            transform: translateX(-50%);
+        }
+
+        .time-event {
+            position: relative;
+            width: 45%;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .time-event:hover {
+            transform: scale(1.05);
+        }
+
+        .time-event:nth-child(odd) { left: 0; text-align: right; }
+        .time-event:nth-child(even) { left: 55%; }
+
+        .time-event::after {
+            content: '';
+            position: absolute;
+            top: 25px;
+            width: 20px;
+            height: 20px;
+            background: var(--deep-blue);
+            border: 4px solid white;
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .time-event:nth-child(odd)::after { right: -13.5%; }
+        .time-event:nth-child(even)::after { left: -13.5%; }
+
+        .date {
+            font-weight: bold;
+            color: var(--primary-gold);
+            font-size: 1.2rem;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* --- FLASHCARDS INTERACTIVES --- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .flashcard-container {
+            background-color: transparent;
+            height: 250px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flashcard {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            box-shadow: var(--shadow);
+            border-radius: 15px;
+        }
+
+        .flashcard-container:hover .flashcard {
+            transform: rotateY(180deg);
+        }
+
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .front {
+            background-color: white;
+            border: 2px solid var(--primary-gold);
+        }
+
+        .front h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--deep-blue);
+        }
+
+        .icon { font-size: 3rem; margin-bottom: 10px; }
+
+        .back {
+            background-color: var(--deep-blue);
+            color: white;
+            transform: rotateY(180deg);
+            border: 2px solid var(--deep-blue);
+        }
+
+        .back p { font-size: 1rem; line-height: 1.5; }
+        .back strong { color: var(--primary-gold); }
+
+        /* --- SECTIONS D'INFO --- */
+        .info-panel {
+            background: white;
+            border-left: 5px solid var(--primary-gold);
+            padding: 30px;
+            margin-top: 30px;
+            border-radius: 0 15px 15px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .limits-box {
+            background: #fff0f0; /* Rouge très pâle pour les limites */
+            border-left-color: #c0392b;
+        }
+        
+        .culture-box {
+            background: #f0f8ff;
+            border-left-color: var(--deep-blue);
+            text-align: center;
+            font-style: italic;
+        }
+
+        ul { padding-left: 20px; }
+        li { margin-bottom: 10px; }
+
+        @media screen and (max-width: 768px) {
+            .timeline::before { left: 20px; }
+            .time-event { width: 85%; left: 50px !important; text-align: left !important; }
+            .time-event::after { left: -39px !important; }
+            h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Athènes & L'Antiquité</h1>
+    <p>Fiche de Révision Interactive</p>
+</header>
+
+<div class="container">
+
+    <h2>⏳ Repères Chronologiques</h2>
+    <div class="timeline">
+        <div class="time-event">
+            <span class="date">753 av. J.-C. – 509 av. J.-C.</span>
+            <strong>Monarchie Romaine</strong><br>
+            Le premier régime de Rome.
+        </div>
+        <div class="time-event">
+            <span class="date">509 av. J.-C. – 27 av. J.-C.</span>
+            <strong>République Romaine</strong><br>
+            Jusqu'à la conquête de la Gaule par Jules César.
+        </div>
+        <div class="time-event">
+            <span class="date">490 av. J.-C.</span>
+            <strong>Bataille de Marathon ⚔️</strong><br>
+            Victoire d'Athènes contre les Perses.
+        </div>
+        <div class="time-event">
+            <span class="date">480 av. J.-C.</span>
+            <strong>Bataille de Salamine ⛵</strong><br>
+            Victoire navale décisive. Début de la Ligue de Délos.
+        </div>
+        <div class="time-event">
+            <span class="date">Ve Siècle av. J.-C.</span>
+            <strong>Le Siècle de Périclès</strong><br>
+            Apogée de la démocratie et puissance maritime.
+        </div>
+        <div class="time-event">
+            <span class="date">27 av. J.-C.</span>
+            <strong>Empire Romain</strong><br>
+            Début de l'Empire avec Auguste.
+        </div>
+    </div>
+
+    <h2>🗳️ La Démocratie : Fonctionnement</h2>
+    <p style="text-align: center; font-style: italic;">Passez la souris sur les cartes pour révéler les définitions !</p>
+    
+    <div class="grid">
+        <div class="flashcard-container">
+            <div class="flashcard">
+                <div class="front">
+                    <div class="icon">🏛️</div>
+                    <h3>Démocratie</h3>
+                </div>
+                <div class="back">
+                    <p>Le peuple (<strong>Demos</strong>) détient le pouvoir (<strong>Kratos</strong>).</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flashcard-container">
+            <div class="flashcard">
+                <div class="front">
+                    <div class="icon">🗣️</div>
+                    <h3>L'Ecclésia</h3>
+                </div>
+                <div class="back">
+                    <p>Assemblée des citoyens sur la colline de la <strong>Pnyx</strong>.<br>Ils débattent, votent les lois, le budget, la guerre et la paix.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flashcard-container">
+            <div class="flashcard">
+                <div class="front">
+                    <div class="icon">⚖️</div>
+                    <h3>L'Héliée</h3>
+                </div>
+                <div class="back">
+                    <p>Tribunal composé de <strong>6000 citoyens</strong> tirés au sort qui rendent la justice.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flashcard-container">
+            <div class="flashcard">
+                <div class="front">
+                    <div class="icon">📜</div>
+                    <h3>La Boulè</h3>
+                </div>
+                <div class="back">
+                    <p>Conseil de <strong>500 citoyens</strong> qui préparent les projets de lois.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2>🏺 Objets de la Vie Démocratique</h2>
+    <div class="grid">
+        <div class="info-panel">
+            <h3>⏳ La Clepsydre</h3>
+            <p>Horloge à eau garantissant un <strong>temps de parole égal</strong> pour chaque citoyen.</p>
+        </div>
+        <div class="info-panel">
+            <h3>🧱 Le Tesson (Ostracon)</h3>
+            <p>Débris de céramique utilisé pour voter l'<strong>ostracisme</strong> (exclusion d'un citoyen jugé dangereux pour la cité).</p>
+        </div>
+        <div class="info-panel">
+            <h3>⚪⚫ Le Jeton</h3>
+            <p>Utilisé au tribunal pour voter la condamnation ou l'acquittement.</p>
+        </div>
+    </div>
+
+    <h2>🚫 Les Limites du Système</h2>
+    <div class="info-panel limits-box">
+        <p>La démocratie athénienne est très fermée (seulement <strong>10%</strong> de la population est citoyenne).</p>
+        <ul>
+            <li><strong>Conditions pour être citoyen :</strong> Homme libre, majeur, né de parents athéniens.</li>
+            <li><strong>Les Groupes Exclus :</strong>
+                <ul>
+                    <li>Les Femmes (aucun droit politique).</li>
+                    <li>Les Métèques (étrangers résidents).</li>
+                    <li>Les Esclaves.</li>
+                </ul>
+            </li>
+            <li><strong>Contrainte Religieuse :</strong> Obligation de vénérer les dieux de la cité, pas de liberté de croyance.</li>
+        </ul>
+    </div>
+
+    <h2>🔱 Empire Maritime & Périclès</h2>
+    <div class="grid">
+        <div class="info-panel">
+            <h3>La Ligue de Délos</h3>
+            <p><strong>Origine :</strong> Après les victoires de Marathon et Salamine, Athènes crée une alliance défensive.</p>
+            <p><strong>Domination :</strong> Athènes transforme l'alliance en Empire. Elle impose sa monnaie, ses taxes et réprime les cités qui veulent partir.</p>
+        </div>
+        <div class="info-panel" style="border-left-color: var(--deep-blue);">
+            <h3>👤 Périclès (Stratège)</h3>
+            <p><strong>Démocratie :</strong> Il crée le <em>Misthos</em> (indemnité d'argent) pour permettre aux citoyens pauvres de siéger sans perdre leur salaire.</p>
+            <p><strong>Rayonnement :</strong> Il utilise l'argent de la Ligue pour reconstruire l'Acropole et le <strong>Parthénon</strong>, faisant d'Athènes le centre intellectuel.</p>
+        </div>
+    </div>
+
+    <h2>🔥 Ce qui unit les Grecs</h2>
+    <div class="info-panel culture-box">
+        <p>Malgré l'indépendance de leurs cités, tous les Grecs de la Méditerranée (ex: Marseille/Massalia) partagent :</p>
+        <p><strong>Une même culture • La langue grecque • La religion polythéiste (mêmes dieux) • Des sanctuaires communs • Les récits d'Homère</strong></p>
+    </div>
+
+</div>
+
+<footer style="text-align: center; padding: 40px; color: #666; font-size: 0.9em;">
+    Fiche générée d'après vos documents de cours • Athènes Antique
+</footer>
+
+</body>
+</html>
